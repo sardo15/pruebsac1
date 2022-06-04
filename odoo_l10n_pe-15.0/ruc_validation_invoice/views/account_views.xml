@@ -10,7 +10,7 @@
                 <button name="action_ruc_validation_sunat" type="object" string="Consulta RUC"
                         attrs="{'invisible': ['|', ('move_type', 'not in', ['in_invoice', 'in_refund']), ('state', '!=', 'draft')]}"/>
             </field>
-            <xpath expr="//field[@name='payment_reference']" position="before">
+            <xpath expr="//field[@name='ref']" position="after">
                 <field name="related_require_validation_ruc" invisible="True"/>
                 <field name="active_and"
                        attrs="{'invisible': ['|', ('related_require_validation_ruc', '=', False), ('move_type', 'not in', ['in_invoice', 'in_refund'])], 'readonly': [('state', '!=', 'draft')]}"

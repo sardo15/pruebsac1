@@ -1,5 +1,5 @@
 from odoo import models, fields
-from odoo.exceptions import ValidationError
+from odoo.exceptions import Warning
 
 
 class AccountMove(models.Model):
@@ -31,7 +31,7 @@ class AccountMove(models.Model):
         message_response = ''
         if obj_partner.l10n_latam_identification_type_id.l10n_pe_vat_code == '6':
             if not self.invoice_date:
-                raise ValidationError('Incorrecto, ingrese fecha de factura.')
+                raise Warning('Incorrecto, ingrese fecha de factura.')
 
             if obj_partner.condition_contributor_sunat == 'HABIDO' and obj_partner.state_contributor_sunat == 'ACTIVO':
                 self.active_and = 'done'
@@ -64,7 +64,7 @@ class AccountMove(models.Model):
     def action_post(self):
         to_open_invoices = self.filtered(lambda inv: inv.state == 'draft')
         if to_open_invoices.filtered(lambda x: x.related_require_validation_ruc and x.active_and != 'done'):
-            raise ValidationError('Si Tipo de documento require validación RUC entonces verifique campo: activo y habido.')
+            raise Warning('Si Tipo de documento require validación RUC entonces verifique campo: activo y habido.')
         return super(AccountMove, self).action_post()
 
 

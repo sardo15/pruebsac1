@@ -1,6 +1,6 @@
 from odoo import models, fields
 from datetime import datetime
-from odoo.exceptions import ValidationError
+from odoo.exceptions import Warning
 import pytz
 
 
@@ -28,7 +28,7 @@ class PurchaseOrder(models.Model):
         message_response = ''
         if obj_partner.l10n_latam_identification_type_id.l10n_pe_vat_code == '6':
             if not self.date_order:
-                raise ValidationError('Incorrecto, ingrese fecha de compra.')
+                raise Warning('Incorrecto, ingrese fecha de compra.')
 
             if obj_partner.condition_contributor_sunat == 'HABIDO' and obj_partner.state_contributor_sunat == 'ACTIVO':
                 self.active_and = 'done'
@@ -70,5 +70,5 @@ class PurchaseOrder(models.Model):
         if self.active_and == 'done':
             super(PurchaseOrder, self).button_confirm()
         else:
-            raise ValidationError('Documento compra debe estar activo y habido.')
+            raise Warning('Documento compra debe estar activo y habido.')
         return True
